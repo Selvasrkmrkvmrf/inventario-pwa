@@ -1,0 +1,26 @@
+// Función para mostrar y ocultar las secciones
+function mostrarSeccion(seccion) {
+  // Ocultar todas las secciones
+  document.querySelectorAll('section').forEach(function(sec) {
+    sec.style.display = 'none';
+  });
+
+  // Mostrar la sección seleccionada
+  document.getElementById(seccion).style.display = 'block';
+}
+
+// Función de búsqueda en el inventario
+function buscarElemento() {
+  let input = document.getElementById('buscador');
+  let filtro = input.value.toUpperCase();
+  let secciones = document.querySelectorAll('#inventario div');
+
+  secciones.forEach(function(elemento) {
+    let texto = elemento.textContent || elemento.innerText;
+    if (texto.toUpperCase().indexOf(filtro) > -1) {
+      elemento.style.display = "";
+    } else {
+      elemento.style.display = "none";
+    }
+  });
+}
