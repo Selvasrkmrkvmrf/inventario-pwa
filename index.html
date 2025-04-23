@@ -3,28 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Inventario</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Inventario Almacén</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        button {
+            margin-top: 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Gestión de Inventario</h1>
-        </header>
-        
-        <nav>
-            <button onclick="mostrarInventario()">Inventario</button>
-            <button onclick="mostrarEntrada()">Entrada</button>
-            <button onclick="mostrarSalida()">Salida</button>
-            <button onclick="mostrarRegistro()">Registro</button>
-        </nav>
-        
-        <section id="content">
-            <h2>Bienvenido a la gestión de inventario</h2>
-            <p>Seleccione una opción del menú para comenzar.</p>
-        </section>
+    <h1>Inventario de Almacén</h1>
+
+    <!-- Menú de navegación -->
+    <div>
+        <button onclick="mostrarInventario()">Inventario</button>
+        <button onclick="mostrarFormularioAgregar()">Agregar Producto</button>
+        <button onclick="mostrarFormularioImportar()">Importar Inventario</button>
     </div>
 
-    <script src="app.js"></script>
-</body>
-</html>
+    <!-- Sección de contenido dinámico -->
+    <div id="content"></div>
+
+    <script>
+        // Inventario inicial
+        const inventario = [
+            { codigo: "PF-S-10", nombre: "Punto Fijo Pequeño 10mm", cantidad: 100, ubicacion: "A1", imagen: "img1.jpg" },
+            { codigo: "PF-L-20", nombre: "Punto Fijo Grande 20mm", cantidad: 50, ubicacion: "A2", imagen: "img2.jpg" },
+            { codigo: "H-300", nombre: "Herramienta 300mm", cantidad: 75, ubicacion: "B1", imagen: "img3.jpg" },
+            { codigo: "M-500", nombre: "Material 500kg", cantidad: 30, ubicacion: "B2", imagen: "img4.jpg" },
+        ];
+
+        // Función para mostrar el inventario
+        function mostrarInventario() {
+            const content = document.getElementById('content');
+            content.innerHTML = '<h2>Inventario</h2><table><tr><th>Código</th><th>Nombre</th><
