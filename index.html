@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventario Almacén</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Inventario de Almacén</h1>
+
+  <nav>
+    <button onclick="mostrarSeccion('inventario')">Inventario</button>
+    <button onclick="mostrarSeccion('entrada')">Entrada</button>
+    <button onclick="mostrarSeccion('salida')">Salida</button>
+    <button onclick="mostrarSeccion('registro')">Registro</button>
+  </nav>
+
+  <section id="busqueda">
+    <input type="text" id="buscador" placeholder="Buscar por nombre o código" oninput="buscarElemento()" />
+  </section>
+
+  <section id="inventario" class="seccion">
+    <!-- Aquí se mostrará el inventario -->
+  </section>
+
+  <section id="entrada" class="seccion" style="display:none">
+    <h2>Agregar al inventario</h2>
+    <!-- Formulario de entrada -->
+  </section>
+
+  <section id="salida" class="seccion" style="display:none">
+    <h2>Retirar del inventario</h2>
+    <!-- Formulario de salida -->
+  </section>
+
+  <section id="registro" class="seccion" style="display:none">
+    <h2>Registro de movimientos</h2>
+    <!-- Aquí van los registros -->
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
