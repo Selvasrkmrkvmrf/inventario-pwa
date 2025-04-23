@@ -1,104 +1,47 @@
-// Variables para almacenar el inventario
-const inventario = [
-    { codigo: "PF-S-10", nombre: "Punto Fijo Pequeño 10mm", cantidad: 100, ubicacion: "A1", imagen: "img1.jpg" },
-    { codigo: "PF-L-20", nombre: "Punto Fijo Grande 20mm", cantidad: 50, ubicacion: "A2", imagen: "img2.jpg" },
-    { codigo: "H-300", nombre: "Herramienta 300mm", cantidad: 75, ubicacion: "B1", imagen: "img3.jpg" },
-    { codigo: "M-500", nombre: "Material 500kg", cantidad: 30, ubicacion: "B2", imagen: "img4.jpg" },
-];
-
-// Función para mostrar el inventario
-function mostrarInventario() {
-    const content = document.getElementById('content');
-    content.innerHTML = '<h2>Inventario</h2><table><tr><th>Código</th><th>Nombre</th><th>Cantidad</th><th>Ubicación</th><th>Acción</th></tr>';
-
-    inventario.forEach(item => {
-        content.innerHTML += `
-            <tr>
-                <td>${item.codigo}</td>
-                <td>${item.nombre}</td>
-                <td>${item.cantidad}</td>
-                <td>${item.ubicacion}</td>
-                <td>
-                    <button onclick="actualizarInventario('${item.codigo}', 'entrada')">Agregar</button>
-                    <button onclick="actualizarInventario('${item.codigo}', 'salida')">Sacar</button>
-                </td>
-            </tr>
-        `;
-    });
-
-    content.innerHTML += '</table>';
+function mostrarSeccion(id) {
+  document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
 }
 
-// Función para agregar un producto manualmente
-function agregarProducto() {
-    const codigo = document.getElementById('codigoProducto').value;
-    const nombre = document.getElementById('nombreProducto').value;
-    const cantidad = parseInt(document.getElementById('cantidadProducto').value);
-    const ubicacion = document.getElementById('ubicacionProducto').value;
-    const imagen = document.getElementById('imagenProducto').value;
+const inventario = [];
 
-    if (!codigo || !nombre || !cantidad || !ubicacion || !imagen) {
-        alert("Por favor ingresa todos los campos.");
-        return;
-    }
-
-    inventario.push({ codigo, nombre, cantidad, ubicacion, imagen });
-    alert(Producto ${nombre} agregado al inventario.);
-    mostrarInventario();
-}
-
-// Función para procesar la importación de Excel
-function importarExcel(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheet = workbook.Sheets[workbook.SheetNames[0]];  // Asume que los datos están en la primera hoja
-        const jsonData = XLSX.utils.sheet_to_json(sheet);
-
-        // Procesar los datos y agregar al inventario
-        jsonData.forEach(item => {
-            const { Codigo, Nombre, Cantidad, Ubicacion, Imagen } = item;
-            inventario.push({ 
-                codigo: Codigo, 
-                nombre: Nombre, 
-                cantidad: Cantidad, 
-                ubicacion: Ubicacion, 
-                imagen: Imagen 
-            });
-        });
-
-        alert("Inventario importado correctamente.");
-        mostrarInventario();
-    };
-
-    reader.readAsArrayBuffer(file);
-}
-
-// Función para mostrar el formulario de agregar productos
 function mostrarFormularioAgregar() {
-    const content = document.getElementById('content');
-    content.innerHTML = `
-        <h2>Agregar Producto</h2>
-        <label for="codigoProducto">Código:</label><input type="text" id="codigoProducto" />
-        <label for="nombreProducto">Nombre:</label><input type="text" id="nombreProducto" />
-        <label for="cantidadProducto">Cantidad:</label><input type="number" id="cantidadProducto" />
-        <label for="ubicacionProducto">Ubicación:</label><input type="text" id="ubicacionProducto" />
-        <label for="imagenProducto">Imagen (URL):</label><input type="text" id="imagenProducto" />
-        <button onclick="agregarProducto()">Agregar Producto</button>
-    `;
+  document.getElementById('formularioAgregar').style.display = 'block';
 }
 
-// Función para mostrar el formulario de importación
-function mostrarFormularioImportar() {
-    const content = document.getElementById('content');
-    content.innerHTML = `
-        <h2>Importar Inventario (Archivo Excel)</h2>
-        <input type="file" id="archivoExcel" accept=".xlsx, .xls" onchange="importarExcel(event)" />
-    `;
+function agregarProducto() {
+  const producto = {
+    codigo: document.getElementById('codigo').value,
+    nombre: document.getElementById('nombre').value,
+    cantidad: document.getElementById('cantidad').value,
+    medida: document.getElementById('medida').value,
+    ubicacion: document.getElementById('ubicacion').value,
+    imagen: document.getElementById('imagen').value
+  };
+
+  inventario.push(producto);
+  mostrarInventario();
+  document.getElementById('formularioAgregar').style.display = 'none';
 }
 
-// Mostrar la pantalla de inventario al inicio
-mostrarInventario();
+function mostrarInventario() {
+  const cuerpo = document.querySelector("#tablaInventario tbody");
+  cuerpo.innerHTML = "";
+
+  inventario.forEach(prod => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `
+      <td>${prod.codigo}</td>
+      <td>${prod.nombre}</td>
+      <td>${prod.cantidad}</td>
+      <td>${prod.medida}</td>
+      <td>${prod.ubicacion}</td>
+      <td><img src="${prod.imagen}" alt="imagen" /></td>
+    `;
+    cuerpo.appendChild(fila);
+  });
+}
+
+function importarExcel(event) {
+  alert("Función de importar Excel aún no está lista");
+}
