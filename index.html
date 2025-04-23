@@ -2,69 +2,25 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Inventario PWA</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .seccion {
-      display: none;
-      margin-top: 20px;
-    }
-
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      border: 1px solid #aaa;
-      padding: 8px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    img {
-      max-width: 50px;
-    }
-  </style>
+  <title>Inventario PWA</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Gestión de Inventario</h1>
-
-  <!-- Botones principales -->
-  <div>
+  <h1>Inventario - Almacén</h1>
+  <div class="menu">
     <button onclick="mostrarSeccion('inventario')">Inventario</button>
     <button onclick="mostrarSeccion('entrada')">Entrada</button>
     <button onclick="mostrarSeccion('salida')">Salida</button>
     <button onclick="mostrarSeccion('registro')">Registro</button>
   </div>
 
-  <!-- Sección Inventario -->
-  <div id="inventario" class="seccion">
+  <!-- Inventario -->
+  <div id="inventario" class="seccion" style="display: none;">
     <h2>Inventario</h2>
-    <div style="margin-bottom: 15px;">
-      <button onclick="document.getElementById('importarArchivo').click()">Importar desde Excel</button>
-      <input type="file" id="importarArchivo" style="display:none" accept=".xlsx, .xls" onchange="importarExcel(event)" />
-      <button onclick="mostrarFormularioAgregar()">Agregar manualmente</button>
-    </div>
-
-    <table border="1" cellpadding="10" cellspacing="0" id="tablaInventario">
+    <button onclick="mostrarFormularioAgregar()">Agregar Manual</button>
+    <input type="file" id="importarExcel" accept=".xlsx, .xls" onchange="importarExcel(event)">
+    <table id="tablaInventario">
       <thead>
         <tr>
           <th>Código</th>
@@ -75,77 +31,39 @@
           <th>Imagen</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Productos -->
-      </tbody>
+      <tbody></tbody>
     </table>
 
-    <div id="formularioAgregar" style="margin-top:20px; display:none;">
-      <h3>Agregar producto</h3>
-      <input type="text" id="codigo" placeholder="Código"><br><br>
-      <input type="text" id="nombre" placeholder="Nombre"><br><br>
-      <input type="number" id="cantidad" placeholder="Cantidad"><br><br>
-      <input type="text" id="medida" placeholder="Medida"><br><br>
-      <input type="text" id="ubicacion" placeholder="Ubicación (Ej. A1)"><br><br>
-      <input type="text" id="imagen" placeholder="URL de imagen"><br><br>
-      <button onclick="agregarProducto()">Agregar</button>
+    <div id="formularioAgregar" style="display: none;">
+      <h3>Nuevo producto</h3>
+      <input id="codigo" placeholder="Código"><br>
+      <input id="nombre" placeholder="Nombre"><br>
+      <input id="cantidad" type="number" placeholder="Cantidad"><br>
+      <input id="medida" placeholder="Medida"><br>
+      <input id="ubicacion" placeholder="Ubicación (ej. A1)"><br>
+      <input id="imagen" placeholder="URL de imagen"><br>
+      <button onclick="agregarProducto()">Guardar</button>
     </div>
   </div>
 
-  <!-- Otras secciones -->
-  <div id="entrada" class="seccion"><h2>Entrada</h2></div>
-  <div id="salida" class="seccion"><h2>Salida</h2></div>
-  <div id="registro" class="seccion"><h2>Registro</h2></div>
+  <!-- Entrada -->
+  <div id="entrada" class="seccion" style="display: none;">
+    <h2>Entrada</h2>
+    <!-- A futuro -->
+  </div>
 
-  <script>
-    function mostrarSeccion(id) {
-      document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-    }
+  <!-- Salida -->
+  <div id="salida" class="seccion" style="display: none;">
+    <h2>Salida</h2>
+    <!-- A futuro -->
+  </div>
 
-    const inventario = [];
+  <!-- Registro -->
+  <div id="registro" class="seccion" style="display: none;">
+    <h2>Registro</h2>
+    <!-- A futuro -->
+  </div>
 
-    function mostrarFormularioAgregar() {
-      document.getElementById('formularioAgregar').style.display = 'block';
-    }
-
-    function agregarProducto() {
-      const producto = {
-        codigo: document.getElementById('codigo').value,
-        nombre: document.getElementById('nombre').value,
-        cantidad: document.getElementById('cantidad').value,
-        medida: document.getElementById('medida').value,
-        ubicacion: document.getElementById('ubicacion').value,
-        imagen: document.getElementById('imagen').value
-      };
-
-      inventario.push(producto);
-      mostrarInventario();
-      document.getElementById('formularioAgregar').style.display = 'none';
-    }
-
-    function mostrarInventario() {
-      const cuerpo = document.querySelector("#tablaInventario tbody");
-      cuerpo.innerHTML = "";
-
-      inventario.forEach(prod => {
-        const fila = document.createElement("tr");
-        fila.innerHTML = `
-          <td>${prod.codigo}</td>
-          <td>${prod.nombre}</td>
-          <td>${prod.cantidad}</td>
-          <td>${prod.medida}</td>
-          <td>${prod.ubicacion}</td>
-          <td><img src="${prod.imagen}" alt="imagen" /></td>
-        `;
-        cuerpo.appendChild(fila);
-      });
-    }
-
-    function importarExcel(event) {
-      // Esta función se completará cuando agreguemos SheetJS
-      alert("Función de importar aún no implementada");
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
